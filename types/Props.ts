@@ -10,7 +10,6 @@ export interface Question {
   hideTitle: boolean,
 } 
 
-
 export interface Props {
   label: string,
   options: { name: string, link?: string }[],

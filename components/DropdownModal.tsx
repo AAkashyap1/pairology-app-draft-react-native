@@ -28,6 +28,7 @@ export default function DropdownModal({
   linkText,
 } : Props) {
   const { state, dispatch } = useData();
+  console.log(link, linkText)
   return (
     <Modal 
       presentationStyle='pageSheet'
@@ -50,24 +51,6 @@ export default function DropdownModal({
               color={Colors.dark.text}
             />
           </View>
-          <TouchableOpacity
-            onPress={() => Linking.openURL(link)}
-            style={{ 
-              marginTop: ((link && linkText) ? '3%' : '0%'), 
-              marginBottom: ((link && linkText) ? '7%' : '0%'), 
-              alignItems: 'center',
-              width: ((link && linkText) ? '80%' : '0%'),
-              backgroundColor: 'black',
-            }}
-          >
-            <AppText 
-              title={false}
-              size={18}
-              text={linkText}
-              color={Colors.lightPurple.text}
-              underline
-            />
-          </TouchableOpacity>
           <FlatList 
             style={listStyles.container}
             data={options}
@@ -98,6 +81,22 @@ export default function DropdownModal({
             )}
             keyExtractor={(item) => item.name}
           />
+          <TouchableOpacity
+            onPress={() => Linking.openURL(link)}
+            style={{ 
+              marginTop: ((link && linkText) ? '5%' : '0%'), 
+              alignItems: 'center',
+              width: ((link && linkText) ? '100%' : '0%'),
+            }}
+          >
+            <AppText 
+              title={false}
+              size={18}
+              text={linkText}
+              color={Colors.lightPurple.text}
+              underline
+            />
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
       <StatusBar />
@@ -107,7 +106,7 @@ export default function DropdownModal({
 
 const listStyles = StyleSheet.create({
   container: {
-    marginTop: '5%',
+    marginTop: '7%',
   }
 })
 

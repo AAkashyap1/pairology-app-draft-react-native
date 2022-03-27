@@ -14,6 +14,7 @@ export default function InputDropdown({
   leftExtreme,
   rightExtreme,
   link,
+  linkText,
   hideTitle,
 } : Question) {
   const { state } = useData();
@@ -25,8 +26,8 @@ export default function InputDropdown({
         options={options}
         visible={visible}
         setVisible={setVisible}
-        link=""
-        linkText=""
+        link={link}
+        linkText={linkText}
       />
       {!hideTitle &&
         <View>

@@ -1,16 +1,9 @@
-import { Octicons, FontAwesome } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Image, View, Linking, TouchableOpacity } from 'react-native';
+import { StyleSheet, Image, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-
-import React, { useContext, useState } from 'react';
 import AppText from '../components/AppText';
 import Colors from '../constants/Colors';
 import { RootTabScreenProps } from '../types';
-import InputDropdown from '../components/InputDropdown';
-import { universities } from '../data/universities';
-import { useData } from '../hooks/useData';
-import { interestedForm } from '../constants/Forms';
 
 export default function CreateAccount({ navigation } : RootTabScreenProps<'Account'>) {
   return (
@@ -34,18 +27,6 @@ export default function CreateAccount({ navigation } : RootTabScreenProps<'Accou
     </SafeAreaProvider>
   );
 }
-
-
-const modalSelectStyles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    borderWidth: 1,
-    padding: 15,
-    marginTop: '12%', 
-    marginBottom: '10%',
-    borderRadius: 8,
-  }
-})
 
 const lineStyles = StyleSheet.create({
   container: {
