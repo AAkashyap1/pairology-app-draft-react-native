@@ -1,0 +1,1 @@
+export const interestedForm = "https://docs.google.com/forms/d/e/1FAIpQLSfLmUejXJ4HCxrmvECrqI-QDWNu8qrl8UxquzqWkoFQU7Qp3Q/viewform";

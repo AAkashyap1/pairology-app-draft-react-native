@@ -1,66 +1,108 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { Dispatch, SetStateAction, useState } from 'react';
-import { Button, FlatList, Platform, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
-import PickerItem from '../components/PickerItem';
-import SearchBar from 'react-native-dynamic-search-bar'
-import * as eva from '@eva-design/eva';
-import { ApplicationProvider, Layout, Text } from '@ui-kitten/components';
+import { FlatList, Keyboard, KeyboardAvoidingView, Linking, Platform, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Octicons } from '@expo/vector-icons';
-
-type University = {
-  name: string, 
-  link: string,
-}
+import React, { Dispatch, SetStateAction } from 'react';
+import AppText from '../components/AppText';
+import Colors from '../constants/Colors';
+import { universities } from '../data/universities';
+import { FontAwesome } from '@expo/vector-icons';
+import { interestedForm } from '../constants/Forms';
 
 type Props = {
-  university: University, 
-  universities: University[],
-  setUniversity: Dispatch<SetStateAction<University>>,
-  setOpen: Dispatch<SetStateAction<boolean>>,
+  university: string,
+  setUniversity: Dispatch<SetStateAction<string>>
+}
+ 
+export default function ModalScreen({ university, setUniversity } : Props) {
+  console.log(university)
+  return (
+    <SafeAreaView style={[safeAreaStyles.container]}>
+      <TouchableWithoutFeedback
+        style={safeAreaStyles.container}
+        onPress={Keyboard.dismiss}
+      >
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={safeAreaStyles.container}
+        >
+          <View style={{ width: '80%' }}>
+            <View style={{ alignItems: 'center' }} >
+              <AppText 
+                title={true}
+                size={30}
+                text={'Current Universities'}
+                color={Colors.dark.text}
+              />
+            </View>
+            <TouchableOpacity
+              onPress={() => Linking.openURL(interestedForm)}
+            >
+              <View style={interestedStyles.container}>
+                <AppText 
+                  text={`Don't see your college?`}
+                  size={18}
+                  underline
+                  title={false}
+                  color={Colors.lightPurple.text}
+                />
+              </View>
+            </TouchableOpacity>
+            <FlatList 
+              style={listStyles.container}
+              data={universities}
+              renderItem={(item) => (
+                <TouchableOpacity
+                  key={item.index}
+                  onPress={() => setUniversity(universities[item.index].name)}
+                  style={{ paddingVertical: '4%', borderBottomWidth: 1, flexDirection: "row" }}
+                >
+                  <AppText 
+                    size={20}
+                    color={universities[item.index].name === university ? Colors.lightPurple.text : Colors.dark.text}
+                    title={false}
+                    text={universities[item.index].name}
+                    flex={1}
+                  />
+                  {universities[item.index].name === university &&
+                    <FontAwesome
+                      name="check"
+                      color={Colors.lightPurple.text}
+                      size={25}
+                    /> 
+                  } 
+                </TouchableOpacity>
+              )}
+              keyExtractor={(item) => item.name}
+            />
+          </View>
+          <StatusBar />
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </SafeAreaView>
+  );
 }
 
-import { Input } from '@ui-kitten/components';
+const listStyles = StyleSheet.create({
+  container: {
+    marginTop: '5%',
+  }
+})
 
-export const InputSimpleUsageShowcase = () => {
-
-  const [value, setValue] = useState('');
-
-  return (
-    <Input
-      placeholder='Place your Text'
-      value={value}
-      onChangeText={nextValue => setValue(nextValue)}
-    />
-  );
-};
-
-export default function ModalScreen({ university, universities, setUniversity, setOpen } : Props) {
-  const [search, setSearch] = useState("");
-
-  return (
-    <ApplicationProvider {...eva} theme={eva.light}>
-      <View style={styles.container}>
-        <InputSimpleUsageShowcase/>
-      </View>
-    </ApplicationProvider>
-  );
-}
-
-const styles = StyleSheet.create({
+const safeAreaStyles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white",
     alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  list: {
-    marginTop: 20, 
-    alignItems: "flex-start",
-    paddingBottom: 80,
+    width: '100%', 
+    height: '100%',
   }
-});
+})
+
+const interestedStyles = StyleSheet.create({
+  container: {
+    marginTop: '1.5%',
+    marginBottom: '5%',
+    alignItems: 'center',
+  }
+})

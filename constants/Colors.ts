@@ -3,17 +3,15 @@ const tintColorDark = '#fff';
 
 export default {
   light: {
-    text: '#000',
-    background: '#fff',
-    tint: tintColorLight,
-    tabIconDefault: '#ccc',
-    tabIconSelected: tintColorLight,
+    text: '#6B7280',
   },
   dark: {
-    text: '#fff',
-    background: '#000',
-    tint: tintColorDark,
-    tabIconDefault: '#ccc',
-    tabIconSelected: tintColorDark,
+    text: '#111827',
   },
+  lightPurple: {
+    text: '#7667DD',
+  }, 
+  darkPurple: {
+    text: '#53489b'
+  }
 };
