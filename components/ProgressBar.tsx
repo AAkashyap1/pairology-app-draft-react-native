@@ -8,7 +8,6 @@ type Props = {
 }
 
 export default function ProgressBar({ amount } : Props) {
-  console.log(amount);
   return (
     <View style={progressBarSytles.container}>
       <View 
