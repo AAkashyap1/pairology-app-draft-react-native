@@ -6,15 +6,35 @@ import AppText from "./AppText";
 type Props = {
   onPressPrev: () => void,
   onPressNext: () => void,
+  disablePrev?: boolean,
+  disableNext?: boolean
 }
 
-export default function NavigationButtons({ onPressPrev, onPressNext } : Props ) {
+export default function NavigationButtons({ 
+  onPressPrev, 
+  onPressNext, 
+  disablePrev, 
+  disableNext 
+} : Props ) {
+
+  function handlePrev() {
+    if (!disablePrev) {
+      onPressPrev();
+    }
+  }
+
+  function handleNext() {
+    if (!disableNext) {
+      onPressNext();
+    }
+  }
+
   return (
     <View
       style={buttonStyles.container}
     >
       <TouchableOpacity
-        onPress={onPressPrev}
+        onPress={() => handlePrev()}
         style={buttonStyles.button}
       >
         <AppText 
@@ -26,7 +46,7 @@ export default function NavigationButtons({ onPressPrev, onPressNext } : Props )
         />
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={onPressNext}
+        onPress={() => handleNext()}
         style={buttonStyles.button}
       >
         <AppText 
@@ -47,7 +67,7 @@ const buttonStyles = StyleSheet.create({
     height: '6%',
     flexDirection: "row",
     justifyContent: "space-between",
-    marginVertical: '10%'
+    marginVertical: '8%'
   },
   button: {
     width: '40%',

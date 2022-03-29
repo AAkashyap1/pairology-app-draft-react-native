@@ -3,16 +3,27 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Image, View, Linking, TouchableOpacity } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import React, { useContext, useState } from 'react';
+import { useState } from 'react';
 import AppText from '../components/AppText';
 import Colors from '../constants/Colors';
 import { RootTabScreenProps } from '../types';
 import InputDropdown from '../components/InputDropdown';
 import { universities } from '../data/universities';
-import { useData } from '../hooks/useData';
 import { interestedForm } from '../constants/Forms';
+import { useData } from '../hooks/useData';
 
-export default function CreateAccount({ navigation } : RootTabScreenProps<'Account'>) {
+export default function CreateAccountScreen({ navigation } : RootTabScreenProps<'Account'>) {
+  const { state } = useData();
+  const [showError, setShowError] = useState(false);
+
+  function validate() {
+    if (state['University'] !== "") {
+      navigation.navigate('Survey')
+    } else {
+      setShowError(true);
+    }
+  }
+
   return (
     <SafeAreaProvider style={safeAreaStyles.container}>
       <View style={imageStyles.container}>
@@ -48,10 +59,21 @@ export default function CreateAccount({ navigation } : RootTabScreenProps<'Accou
             label={'University'}
             options={universities}
           />
+          {showError && state['University'] === "" &&
+            <View style={{ alignItems: "flex-start", marginTop: '2%' }} >
+              <AppText 
+                title={false}
+                size={14}
+                text="Required"
+                color='red'
+                bold
+              />
+            </View>
+          }
         </View>
       </View>
       <TouchableOpacity
-        onPress={() => navigation.navigate('Survey', { pageNumber: 1 })}
+        onPress={() => validate()}
         style={googleButtonStyles.container}
       >
         <FontAwesome
@@ -72,17 +94,6 @@ export default function CreateAccount({ navigation } : RootTabScreenProps<'Accou
     </SafeAreaProvider>
   );
 }
-
-const modalSelectStyles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    borderWidth: 1,
-    padding: 15,
-    marginTop: '12%', 
-    marginBottom: '10%',
-    borderRadius: 8,
-  }
-})
 
 const lineStyles = StyleSheet.create({
   container: {

@@ -15,7 +15,6 @@ type Props = {
 }
  
 export default function ModalScreen({ university, setUniversity } : Props) {
-  console.log(university)
   return (
     <SafeAreaView style={[safeAreaStyles.container]}>
       <TouchableWithoutFeedback

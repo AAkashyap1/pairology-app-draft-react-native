@@ -28,7 +28,6 @@ export default function DropdownModal({
   linkText,
 } : Props) {
   const { state, dispatch } = useData();
-  console.log(link, linkText)
   return (
     <Modal 
       presentationStyle='pageSheet'

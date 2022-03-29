@@ -1,8 +1,9 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import CreateAccount from './screens/CreateAccountScreen';
-import DataProvider from './Provider';
+import CreateAccountScreen from './screens/CreateAccountScreen';
+import DataProvider from './providers/DataProvider';
 import SurveyScreen from './screens/SurveyScreen';
+import ResultsScreen from './screens/ResultsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -14,12 +15,17 @@ export default function App() {
           <Stack.Screen
             options={{ headerShown: false }}
             name="Account"
-            component={CreateAccount}
+            component={CreateAccountScreen}
           />
           <Stack.Screen 
             options={{ headerShown: false }}
             name="Survey"
             component={SurveyScreen}
+          />
+          <Stack.Screen 
+            options={{ headerShown: false }}
+            name="Results"
+            component={ResultsScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>

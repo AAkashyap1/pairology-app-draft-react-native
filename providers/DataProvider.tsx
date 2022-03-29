@@ -1,7 +1,7 @@
 import { createContext, Dispatch, useReducer } from 'react';
-import { Data } from './constants/Data';
+import { Data } from '../constants/Data';
 
-const initialState : Data = {
+const initialState = {
   "University": "",
   "Name": "",
   "Major": "",
@@ -15,7 +15,9 @@ const initialState : Data = {
   "I don't like drawing attention to myself": "",
   "I tend to be quiet": "",
   "I like playing with abstract ideas": "",
+  "Staying physically fit is very important to me": "",
   "I frequently plan things out in advance": "",
+  "Interests": ""
 };
 
 interface Action {

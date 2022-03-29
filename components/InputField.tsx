@@ -1,9 +1,8 @@
-import { Dispatch, SetStateAction, useContext } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import Colors from "../constants/Colors";
 import { Data } from "../constants/Data";
 import { useData } from "../hooks/useData";
-import { Props, Question } from "../types/Props";
+import { Question } from "../types/Props";
 import AppText from "./AppText";
 
 export default function InputField({

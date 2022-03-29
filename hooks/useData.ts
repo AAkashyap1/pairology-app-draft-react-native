@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { UserDataContext } from '../Provider';
+import { UserDataContext } from '../providers/DataProvider';
 
 export function useData() {
   return useContext(UserDataContext);

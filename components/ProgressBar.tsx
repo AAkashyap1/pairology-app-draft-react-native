@@ -8,23 +8,24 @@ type Props = {
 }
 
 export default function ProgressBar({ amount } : Props) {
+  const percentProgress = Math.round(100 * amount / Math.floor((questions.length + 3) / 4))
   return (
     <View style={progressBarSytles.container}>
       <View 
         style={
           [progressBarSytles.bar, 
-            { width: (String(Math.round(100 * amount / ((questions.length + 3) / 4))) + '%') }
+            { width: (String(percentProgress) + '%') }
           ]
         } 
       />
-      {amount !== 3 && <View style={progressBarSytles.text}>
+      <View style={progressBarSytles.text}>
         <AppText 
           title={true} 
           size={16} 
-          text={String(Math.round(100 * amount / ((questions.length + 3) / 4))) + '%'} 
+          text={String(percentProgress) + '%'} 
           color={Colors.dark.text}
         />
-      </View>}
+      </View>
     </View>
   )
 }

@@ -1,6 +1,7 @@
 import ButtonGroup from "../components/ButtonGroup";
 import InputDropdown from "../components/InputDropdown";
 import InputField from "../components/InputField";
+import Multiselect from "../components/Multiselect";
 import Scale from "../components/Scale";
 import { Props } from "../types/Props";
 
@@ -145,4 +146,32 @@ export const questions: Props[] = [
     linkText: '',
     component: Scale,
   },
+  {
+    label: `Interests`,
+    leftExtreme: '',
+    rightExtreme: '',
+    options: [
+      { name: "Musical instrument" },
+      { name: "Sports" },
+      { name: "Working out" },
+      { name: "Cooking" },
+      { name: "Baking" },
+      { name: "Video games" },
+      { name: "Eating food" },
+      { name: "Coding" },
+      { name: "Reading" },
+      { name: "Watching movies" },
+      { name: "Arts & crafts" },
+      { name: "Climbing" },
+      { name: "Anime" },
+      { name: "Writing" },
+      { name: "Hiking" },
+    ],
+    hideTitle: false,
+    link: '',
+    linkText: '',
+    component: Multiselect,
+  }
 ]
+
+export const PageTitles = [];
