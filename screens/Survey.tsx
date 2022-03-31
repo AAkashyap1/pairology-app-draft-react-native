@@ -13,7 +13,7 @@ import { Data } from '../constants/Data';
 import { useData } from '../hooks/useData';
 
 
-export default function SurveyScreen({ route, navigation } : RootTabScreenProps<'Survey'>) {
+export default function Survey({ route, navigation } : RootTabScreenProps<'Survey'>) {
   const { state } = useData()
   const [pageNumber, setPageNumber] = useState(1);
   const [tempQuestions, setTempQuestions] = useState(questions.slice(4 * (pageNumber - 1), 4 * pageNumber));
@@ -35,7 +35,7 @@ export default function SurveyScreen({ route, navigation } : RootTabScreenProps<
 
   function handleNext() {
     if (pageNumber === Math.floor(((questions.length) + 3) / 4)) {
-      navigation.navigate('Results')
+      navigation.navigate('Dashboard')
     } else {
       setPageNumber(pageNumber + 1);
     }

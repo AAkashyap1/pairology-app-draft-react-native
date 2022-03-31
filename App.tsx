@@ -1,9 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import CreateAccountScreen from './screens/CreateAccountScreen';
+import CreateAccount from './screens/CreateAccount';
 import DataProvider from './providers/DataProvider';
-import SurveyScreen from './screens/SurveyScreen';
-import ResultsScreen from './screens/ResultsScreen';
+import Survey from './screens/Survey';
+import Dashboard from './screens/Dashboard';
+import Chat from './screens/Chat';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,17 +16,22 @@ export default function App() {
           <Stack.Screen
             options={{ headerShown: false }}
             name="Account"
-            component={CreateAccountScreen}
+            component={CreateAccount}
           />
           <Stack.Screen 
             options={{ headerShown: false }}
             name="Survey"
-            component={SurveyScreen}
+            component={Survey}
           />
           <Stack.Screen 
             options={{ headerShown: false }}
-            name="Results"
-            component={ResultsScreen}
+            name="Dashboard"
+            component={Dashboard}
+          />
+          <Stack.Screen 
+            options={{ headerShown: false }}
+            name="Chat"
+            component={Chat}
           />
         </Stack.Navigator>
       </NavigationContainer>

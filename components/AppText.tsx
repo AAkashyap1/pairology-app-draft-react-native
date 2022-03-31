@@ -12,9 +12,10 @@ type Props = {
   underline?: boolean,
   bold?: boolean,
   italic?: boolean,
+  center?: boolean,
 }
 
-export default function AppText({ text, size, title, color, flex, underline, bold, italic } : Props) {
+export default function AppText({ text, size, title, color, flex, underline, bold, italic, center } : Props) {
   let [fontsLoaded] = useFonts({
     DMSans_700Bold,
     Inter_400Regular,
@@ -32,6 +33,7 @@ export default function AppText({ text, size, title, color, flex, underline, bol
         fontStyle: (italic ? 'italic' : 'normal'),
         fontWeight: (bold ? 'bold' : 'normal'),
         textDecorationLine: (underline ? 'underline' : 'none'),
+        textAlign: (center ? 'center' : 'left')
       }}>
         {text}
       </Text>

@@ -12,7 +12,7 @@ import { universities } from '../data/universities';
 import { interestedForm } from '../constants/Forms';
 import { useData } from '../hooks/useData';
 
-export default function CreateAccountScreen({ navigation } : RootTabScreenProps<'Account'>) {
+export default function CreateAccount({ navigation } : RootTabScreenProps<'Account'>) {
   const { state } = useData();
   const [showError, setShowError] = useState(false);
 
