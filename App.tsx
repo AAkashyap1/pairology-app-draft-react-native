@@ -4,6 +4,7 @@ import CreateAccount from './screens/CreateAccount';
 import DataProvider from './providers/DataProvider';
 import Survey from './screens/Survey';
 import Dashboard from './screens/Dashboard';
+import Messages from './screens/Messages';
 import Chat from './screens/Chat';
 
 const Stack = createNativeStackNavigator();
@@ -27,6 +28,11 @@ export default function App() {
             options={{ headerShown: false }}
             name="Dashboard"
             component={Dashboard}
+          />
+          <Stack.Screen 
+            options={{ headerShown: false }}
+            name="Messages"
+            component={Messages}
           />
           <Stack.Screen 
             options={{ headerShown: false }}

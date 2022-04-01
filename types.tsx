@@ -29,6 +29,7 @@ export type RootTabParamList = {
   "Account": undefined,
   "Survey": undefined,
   "Dashboard": undefined,
+  "Messages": undefined,
   "Chat": undefined,
 };
 

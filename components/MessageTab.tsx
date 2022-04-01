@@ -1,7 +1,7 @@
 import { AntDesign }from '@expo/vector-icons';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
-import AppText from '../components/AppText';
+import AppText from './AppText';
 import Colors from '../constants/Colors';
 
 type Props = { 
@@ -11,9 +11,9 @@ type Props = {
   onPress: () => void
 }
 
-export default function Chat({ name, email, lastMessage, onPress } : Props) {
+export default function MessageTab({ name, email, lastMessage, onPress } : Props) {
   return (
-    <TouchableOpacity style={match.container} >
+    <TouchableOpacity style={message.container} onPress={onPress} >
       <View style={{}}>
         <AppText 
           title={false}
@@ -50,7 +50,7 @@ export default function Chat({ name, email, lastMessage, onPress } : Props) {
   )
 }
 
-const match = StyleSheet.create({
+const message = StyleSheet.create({
   container: {
     borderTopWidth: 0.3,
     borderTopColor: 'gray',

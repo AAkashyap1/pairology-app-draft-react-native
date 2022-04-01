@@ -38,7 +38,7 @@ export default function Dashboard({ route, navigation } : RootTabScreenProps<'Da
               name='Rafael Basto'
               email='rbasto19@stanford.edu'
               bio='Physics, running, swimming, climbing, outdoors!'
-              onPress={() => navigation.navigate('Chat')}
+              onPress={() => navigation.navigate('Messages')}
             />
             <View style={{ marginTop: '10%', alignItems: 'center' }} >
               <AppText 
@@ -52,25 +52,25 @@ export default function Dashboard({ route, navigation } : RootTabScreenProps<'Da
               name='Ananth Kashyap'
               email='ananthkashyap4@gmail.com'
               bio='Boom boom boom booom boooooom'
-              onPress={() => navigation.navigate('Chat')}
+              onPress={() => navigation.navigate('Messages')}
             />
             <Match 
               name='Henry Weng'
               email='henryweng03@gmail.com'
               bio='Boom boom boom booom boooooom'
-              onPress={() => navigation.navigate('Chat')}
+              onPress={() => navigation.navigate('Messages')}
             />
             <Match 
               name='Ananth Kashyap'
               email='ananthkashyap4@gmail.com'
               bio='Boom boom boom booom boooooom'
-              onPress={() => navigation.navigate('Chat')}
+              onPress={() => navigation.navigate('Messages')}
             />
             <Match 
               name='Henry Weng'
               email='henryweng03@gmail.com'
               bio='Boom boom boom booom boooooom'
-              onPress={() => navigation.navigate('Chat')}
+              onPress={() => navigation.navigate('Messages')}
             />
           </View>
         </View>

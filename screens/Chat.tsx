@@ -1,52 +1,70 @@
-import { FontAwesome } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
-import { FlatList, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import AppText from '../components/AppText';
-import Chat from '../components/Chat';
-import Match from '../components/Match';
 import Colors from '../constants/Colors';
 import { RootTabScreenProps } from '../types';
+import { questions } from '../constants/Questions'
+import React from 'react';
+import { Entypo } from '@expo/vector-icons';
 
-export default function Dashboard({ route, navigation } : RootTabScreenProps<'Chat'>) {
-  
+export default function Survey({ route, navigation } : RootTabScreenProps<'Chat'>) {
   return (
     <SafeAreaView style={[safeAreaStyles.container]}>
-      <View style={{ width: '85%', alignItems: "flex-end" }} >
-        <TouchableOpacity>
-          <FontAwesome
-            name="cog"
-            color="black"
-            size={30}
-          />
-        </TouchableOpacity>
-      </View>
-      <ScrollView style={{ height: '85%', width: '100%', marginTop: '2%', }}>
+      <View style={navStyles.container}>
         <View
-          style={[safeAreaStyles.container]}
+          style={navStyles.arrow}
         >
-          <View style={{ alignItems: 'center' }} >
-            <AppText 
-              title={true}
-              size={30}
-              text={'Messages'}
+          <TouchableOpacity 
+            onPress={() => navigation.navigate('Messages')}
+          >
+            <Entypo 
+              name="chevron-left"
+              size={20}
               color={Colors.dark.text}
             />
-          </View>
-          <View style={{ width: '100%', marginTop: '6%', }}>
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
-              <Chat 
-                key={num}
-                name='Rafael Basto'
-                email='rbasto19@stanford.edu'
-                lastMessage='Hey whats up dude long time no talk.'
-                onPress={() => navigation.navigate('Chat')}
-              />
-            ))}
-          </View>
+          </TouchableOpacity>
         </View>
-        <StatusBar />
+        <View style={navStyles.text} >
+          <AppText 
+            title={true}
+            size={20}
+            text="Rafael Basto"
+            color={Colors.dark.text}
+          />
+        </View>
+      </View>
+      <ScrollView style={{ height: '100%', width: '100%' }}>
+        <TouchableWithoutFeedback
+          style={safeAreaStyles.container}
+          onPress={Keyboard.dismiss}
+        >
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={safeAreaStyles.container}
+          >
+            <View style={{ width: '90%' }}>
+              {questions.map((question, questionIdx) => (
+                <View 
+                  key={question.label}
+                  style={{ marginTop : '5%' }}
+                >
+                  <question.component
+                    label={question.label}
+                    options={question.options}
+                    leftExtreme={question.leftExtreme}
+                    rightExtreme={question.rightExtreme}
+                    link={question.link}
+                    linkText={question.linkText}
+                    hideTitle={question.hideTitle}
+                  />
+                </View>
+              ))}
+            </View>
+            <StatusBar />
+          </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
       </ScrollView>
     </SafeAreaView>
   );
@@ -63,26 +81,24 @@ const safeAreaStyles = StyleSheet.create({
   }
 })
 
-const match = StyleSheet.create({
+const navStyles = StyleSheet.create({
   container: {
-    marginTop: '6%',
-    backgroundColor: "lavender",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 20,
-    borderRadius: 8,
-  },
-  text: {
-    marginTop: '2%'
-  }, 
-  button: {
-    borderRadius: 8,
-    backgroundColor: Colors.lightPurple.text,
-    paddingHorizontal: 20,
-    paddingVertical: 5,
+    padding:'4%', 
+    marginTop: '1%', 
+    borderColor: 'gray', 
+    borderBottomWidth: 1, 
+    width: '100%', 
     flexDirection: 'row',
-    alignItems: "center",
-    justifyContent: "center",
+  },
+  text: { 
+    flex: 1,
+    alignItems: 'center',
+  },
+  arrow: { 
+    zIndex: 1,
+    position: 'absolute',
+    left: '4%',
+    top: '75%',
+    justifyContent: 'center',
   }
 })
-
