@@ -1,8 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { FlatList, Linking, Modal, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { FlatList, Linking, Modal, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import AppText from '../components/AppText';
 import Colors from '../constants/Colors';
 import { FontAwesome } from '@expo/vector-icons';
@@ -14,7 +14,7 @@ type Props = {
   title: string,
   options: { name: string, link?: string }[],
   visible: boolean,
-  setVisible: Dispatch<SetStateAction<boolean>>
+  setVisible: Dispatch<SetStateAction<boolean>>,
   link: string,
   linkText: string
 }
@@ -28,6 +28,8 @@ export default function DropdownModal({
   linkText,
 } : Props) {
   const { state, dispatch } = useData();
+  const [search, setSearch] = useState('');
+  
   return (
     <Modal 
       presentationStyle='pageSheet'
@@ -50,26 +52,36 @@ export default function DropdownModal({
               color={Colors.dark.text}
             />
           </View>
+          <View>
+            <TextInput
+              autoCorrect={false}
+              placeholderTextColor={Colors.dark.text}
+              placeholder={`Search list...`}
+              style={inputStyles.container}
+              value={search}
+              onChangeText={setSearch}
+            />
+          </View>
           <FlatList 
             style={listStyles.container}
-            data={options}
+            data={options.filter((option) => option.name.startsWith(search))}
             renderItem={(item) => (
               <TouchableOpacity
                 key={item.index}
                 onPress={() => {
-                  dispatch({ type: title, payload: options[item.index].name });
+                  dispatch({ type: title, payload: options.filter((option) => option.name.startsWith(search))[item.index].name });
                   setVisible(false);
                 }}
                 style={{ paddingVertical: '4%', borderBottomWidth: 1, flexDirection: "row" }}
               >
                 <AppText 
                   size={20}
-                  color={options[item.index].name === state[title as keyof Data]  ? Colors.lightPurple.text : Colors.dark.text}
+                  color={options.filter((option) => option.name.startsWith(search))[item.index].name === state[title as keyof Data]  ? Colors.lightPurple.text : Colors.dark.text}
                   title={false}
-                  text={options[item.index].name}
+                  text={options.filter((option) => option.name.startsWith(search))[item.index].name}
                   flex={1}
                 />
-                {options[item.index].name === state[title as keyof Data] &&
+                {options.filter((option) => option.name.startsWith(search))[item.index].name === state[title as keyof Data] &&
                   <FontAwesome
                     name="check"
                     color={Colors.lightPurple.text}
@@ -105,7 +117,7 @@ export default function DropdownModal({
 
 const listStyles = StyleSheet.create({
   container: {
-    marginTop: '7%',
+    marginTop: '5%',
   }
 })
 
@@ -116,5 +128,15 @@ const modalStyles = StyleSheet.create({
     alignItems: "center",
     width: '100%', 
     height: '100%',
+  }
+})
+
+const inputStyles = StyleSheet.create({
+  container: {
+    borderWidth: 1,
+    padding: 15,
+    borderRadius: 8,
+    marginTop: '6%',
+    marginHorizontal: -5
   }
 })

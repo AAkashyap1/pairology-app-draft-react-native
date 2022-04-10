@@ -2,8 +2,10 @@ import { Octicons, FontAwesome } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Image, View, Linking, TouchableOpacity } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from "expo-auth-session/providers/google";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AppText from '../components/AppText';
 import Colors from '../constants/Colors';
 import { RootTabScreenProps } from '../types';
@@ -12,10 +14,11 @@ import { universities } from '../data/universities';
 import { interestedForm } from '../constants/Forms';
 import { useData } from '../hooks/useData';
 
+WebBrowser.maybeCompleteAuthSession();
+
 export default function CreateAccount({ navigation } : RootTabScreenProps<'Account'>) {
   const { state } = useData();
   const [showError, setShowError] = useState(false);
-
   function validate() {
     if (state['University'] !== "") {
       navigation.navigate('Survey')
@@ -23,6 +26,40 @@ export default function CreateAccount({ navigation } : RootTabScreenProps<'Accou
       setShowError(true);
     }
   }
+
+  /**
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    expoClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
+    iosClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
+    androidClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
+    webClientId: 'GOOGLE_GUID.apps.googleusercontent.com',
+  });
+
+  useEffect(() => {
+    if (response?.type === 'success') {
+      const { authentication } = response;
+      }
+  }, [response]);
+
+
+  async function signIn() {
+    console.log("LoginScreen.js 6 | loggin in");
+    try {
+      const { type, accessToken, user }= await Google.logInAsync({
+        iosClientId: `776680840046-859q9vja4vmal5igt1b4uq6ov272fhei.apps.googleusercontent.com`,
+        androidClientId: `776680840046-miffvn4rtki0qggfjspno1ilafca2a4s.apps.googleusercontent.com`,
+      });
+
+      if (type === "success") {
+        // Then you can use the Google REST API
+        console.log("LoginScreen.js 17 | success, navigating to profile");
+        navigation.navigate("Profile", { user });
+      }
+    } catch (error) {
+      console.log(JSON.stringify(error));
+    }
+  };
+  */
 
   return (
     <SafeAreaProvider style={safeAreaStyles.container}>
@@ -144,3 +181,4 @@ const safeAreaStyles = StyleSheet.create({
     justifyContent: "center",
   }
 })
+

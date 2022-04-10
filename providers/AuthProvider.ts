@@ -1,16 +1,33 @@
-import React, { useContext, useState, useEffect } from 'react';
-const AuthContext = React.createContext({})
+import React, { useContext, useState, useEffect, createContext } from 'react';
+import app from '../Realm';
+
+const AuthContext = createContext(null);
 
 export function useAuth() {
   return useContext(AuthContext)
 }
 
 export function AuthProvider({ children } : { children: JSX.Element }) {
-  const [currentUser, setCurrentUser] = useState()
-  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState({});
+  const idToken = getGoo
   
-  function signUp() {
+  async function login(email: string, password: string) {
+    const creds = Realm.Credentials.emailPassword(email, password);
+    const newUser = await app.logIn(creds);
+    setUser(newUser);
+  }
 
+  async function signUp(email: string, password: string) {
+    await app.emailPasswordAuth.registerUser({ email, password });
+  }
+
+  function signOut() {
+    if (user == null) {
+      console.warn("Not logged in, can't log out!");
+      return;
+    }
+    user.logOut();
+    setUser({});
   }
 
   useEffect(() => {
@@ -23,7 +40,7 @@ export function AuthProvider({ children } : { children: JSX.Element }) {
   }, [])
 
   const value = {
-    currentUser,
+    user,
     login,
     signout,
     signup

@@ -1,78 +1,38 @@
-import { FontAwesome } from '@expo/vector-icons';
+import { Entypo, FontAwesome } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
+import { useState } from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
 import AppText from '../components/AppText';
 import Match from '../components/Match';
+
+import MatchCard from '../components/MatchCard';
+import Nav from '../components/Nav';
 import Colors from '../constants/Colors';
 import { RootTabScreenProps } from '../types';
 
 export default function Dashboard({ route, navigation } : RootTabScreenProps<'Dashboard'>) {
-  
+  const [opt, setOpt] = useState(false);
   return (
     <SafeAreaView style={[safeAreaStyles.container]}>
-      <View style={{ width: '85%', alignItems: "flex-end" }} >
-        <TouchableOpacity>
-          <FontAwesome
-            name="cog"
-            color="black"
-            size={30}
-          />
-        </TouchableOpacity>
-      </View>
-      <ScrollView style={{ height: '85%', width: '100%', marginTop: '2%', }}>
+      <Nav opt={opt} setOpt={setOpt} />
+      <ScrollView style={{ height: '100%', width: '100%' }}>
         <View
           style={[safeAreaStyles.container]}
         >
-          <View style={{ width: '85%' }}>
-            <View style={{ alignItems: 'center' }} >
+          {opt ?
+            <MatchCard route={route} navigation={navigation}/> :
+            <View style={{ marginTop: '12%', width: '80%' }}>
+
               <AppText 
-                title={true}
-                size={30}
-                text={'Your Match'}
                 color={Colors.dark.text}
+                size={35}
+                text="Your match will arrive on 3/8"
+                title={true}
+                center
               />
             </View>
-            <Match 
-              name='Rafael Basto'
-              email='rbasto19@stanford.edu'
-              bio='Physics, running, swimming, climbing, outdoors!'
-              onPress={() => navigation.navigate('Messages')}
-            />
-            <View style={{ marginTop: '10%', alignItems: 'center' }} >
-              <AppText 
-                title={true}
-                size={30}
-                text={'Previous Matches'}
-                color={Colors.dark.text}
-              />
-            </View>
-            <Match 
-              name='Ananth Kashyap'
-              email='ananthkashyap4@gmail.com'
-              bio='Boom boom boom booom boooooom'
-              onPress={() => navigation.navigate('Messages')}
-            />
-            <Match 
-              name='Henry Weng'
-              email='henryweng03@gmail.com'
-              bio='Boom boom boom booom boooooom'
-              onPress={() => navigation.navigate('Messages')}
-            />
-            <Match 
-              name='Ananth Kashyap'
-              email='ananthkashyap4@gmail.com'
-              bio='Boom boom boom booom boooooom'
-              onPress={() => navigation.navigate('Messages')}
-            />
-            <Match 
-              name='Henry Weng'
-              email='henryweng03@gmail.com'
-              bio='Boom boom boom booom boooooom'
-              onPress={() => navigation.navigate('Messages')}
-            />
-          </View>
+          } 
         </View>
         <StatusBar />
       </ScrollView>
@@ -88,5 +48,28 @@ const safeAreaStyles = StyleSheet.create({
     justifyContent: "center",
     width: '100%', 
     height: '100%',
+  }
+})
+
+const match = StyleSheet.create({
+  container: {
+    backgroundColor: "lavender",
+    alignItems: "flex-start",
+    justifyContent: "center",
+    paddingVertical: '8%',
+    paddingHorizontal: '10%',
+    borderRadius: 30,
+  },
+  text: {
+    marginTop: '2%'
+  }, 
+  button: {
+    borderRadius: 8,
+    backgroundColor: Colors.lightPurple.text,
+    width: '80%',
+    paddingVertical: 12,
+    flexDirection: 'row',
+    alignItems: "center",
+    justifyContent: "center",
   }
 })

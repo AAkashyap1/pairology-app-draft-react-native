@@ -103,10 +103,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 3,
   },
-  underText: {
-    width: '100%',
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 4,
-  }
 });

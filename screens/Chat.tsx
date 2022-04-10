@@ -1,13 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TextInputBase, Touchable, TouchableNativeFeedback, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import AppText from '../components/AppText';
 import Colors from '../constants/Colors';
 import { RootTabScreenProps } from '../types';
-import { questions } from '../constants/Questions'
 import React from 'react';
 import { Entypo } from '@expo/vector-icons';
+import Message from '../components/Message';
 
 export default function Survey({ route, navigation } : RootTabScreenProps<'Chat'>) {
   return (
@@ -22,7 +22,7 @@ export default function Survey({ route, navigation } : RootTabScreenProps<'Chat'
             <Entypo 
               name="chevron-left"
               size={20}
-              color={Colors.dark.text}
+              color={Colors.light.text}
             />
           </TouchableOpacity>
         </View>
@@ -35,37 +35,56 @@ export default function Survey({ route, navigation } : RootTabScreenProps<'Chat'
           />
         </View>
       </View>
-      <ScrollView style={{ height: '100%', width: '100%' }}>
-        <TouchableWithoutFeedback
-          style={safeAreaStyles.container}
-          onPress={Keyboard.dismiss}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={[safeAreaStyles.container, { flexDirection: 'column' }]}
+      >
+        <ScrollView
+          style={{ width: '100%', flex: 1, paddingHorizontal: '4%' }}
         >
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={safeAreaStyles.container}
-          >
-            <View style={{ width: '90%' }}>
-              {questions.map((question, questionIdx) => (
-                <View 
-                  key={question.label}
-                  style={{ marginTop : '5%' }}
-                >
-                  <question.component
-                    label={question.label}
-                    options={question.options}
-                    leftExtreme={question.leftExtreme}
-                    rightExtreme={question.rightExtreme}
-                    link={question.link}
-                    linkText={question.linkText}
-                    hideTitle={question.hideTitle}
-                  />
-                </View>
-              ))}
-            </View>
-            <StatusBar />
-          </KeyboardAvoidingView>
-        </TouchableWithoutFeedback>
-      </ScrollView>
+          <View>
+            <Message 
+              away={true}
+              change={true}
+              text={'Hey Ananth'}
+            />
+            <Message 
+              away={false}
+              change={true}
+              text={'Hey Rafael'}
+            />
+            <Message 
+              away={true}
+              change={true}
+              text={'How are you doing today'}
+            />
+            <Message
+              away={false}
+              change={true}
+              text={'I am doing good today'}
+            />
+            <Message
+              away={false}
+              change={false}
+              text={'How old are you'}
+            />
+          </View>
+        </ScrollView>
+        <TextInput 
+          placeholder="Enter your message..."
+          placeholderTextColor={Colors.light.text}
+          style={{ 
+            width: '92%', 
+            justifyContent: 'flex-end', 
+            padding: 15, 
+            backgroundColor: 'lavenderblush', 
+            borderRadius: 25,
+            marginTop: '3%', 
+            marginBottom: '2%',
+          }}
+        />
+        <StatusBar />
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
@@ -86,7 +105,7 @@ const navStyles = StyleSheet.create({
     padding:'4%', 
     marginTop: '1%', 
     borderColor: 'gray', 
-    borderBottomWidth: 1, 
+    borderBottomWidth: 0.3, 
     width: '100%', 
     flexDirection: 'row',
   },
