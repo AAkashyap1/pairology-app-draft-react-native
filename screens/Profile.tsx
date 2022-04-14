@@ -1,42 +1,28 @@
-import { Entypo, FontAwesome } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Image, ScrollView, StyleSheet, View } from 'react-native';
 import AppText from '../components/AppText';
-import Match from '../components/Match';
+
 
 import MatchCard from '../components/MatchCard';
 import Nav from '../components/Nav';
 import Colors from '../constants/Colors';
+import { useOpt } from '../hooks/useOpt';
 import { RootTabScreenProps } from '../types';
 
-export default function Dashboard({ route, navigation } : RootTabScreenProps<'Dashboard'>) {
-  const [opt, setOpt] = useState(false);
+export default function Profile({ route, navigation } : RootTabScreenProps<'Profile'>) {
+  const { opt } = useOpt()
   return (
-    <SafeAreaView style={[safeAreaStyles.container]}>
-      <Nav opt={opt} setOpt={setOpt} />
-      <ScrollView style={{ height: '100%', width: '100%' }}>
+    <View style={[safeAreaStyles.container, { paddingTop: '11%' }]}>
+      <Nav/>
+      <ScrollView style={{ width: '100%' }}>
         <View
           style={[safeAreaStyles.container]}
         >
-          {opt ?
-            <MatchCard route={route} navigation={navigation}/> :
-            <View style={{ marginTop: '12%', width: '80%' }}>
-
-              <AppText 
-                color={Colors.dark.text}
-                size={35}
-                text="Your match will arrive on 3/8"
-                title={true}
-                center
-              />
-            </View>
-          } 
+          <MatchCard external={false} navigation={navigation}/>
         </View>
         <StatusBar />
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 

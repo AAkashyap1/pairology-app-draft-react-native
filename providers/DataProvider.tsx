@@ -17,7 +17,7 @@ const initialState = {
   "I like playing with abstract ideas": "",
   "Staying physically fit is very important to me": "",
   "I frequently plan things out in advance": "",
-  "Interests": ""
+  "Interests": "",
 };
 
 interface Action {

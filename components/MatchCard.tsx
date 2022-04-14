@@ -6,7 +6,12 @@ import List from '../components/List';
 import Colors from '../constants/Colors';
 import { RootTabScreenProps } from '../types';
 
-export default function MatchCard({ navigation } : RootTabScreenProps<'Dashboard'>) {
+type Props = {
+  external: boolean,
+  navigation: RootTabScreenProps<'Current Match' | 'Profile'>["navigation"]
+}
+
+export default function MatchCard({ external, navigation }: Props) {
   
   return (
     <View style={{ width: '86%' }}>
@@ -22,19 +27,30 @@ export default function MatchCard({ navigation } : RootTabScreenProps<'Dashboard
           <AppText 
             title={true}
             size={28}
-            text="Ananth Kashyap"
+            text={external ? "Ananth Kashyap" : 'My Profile'}
             color={Colors.dark.text}
           />
-          <TouchableOpacity 
-            onPress={() => navigation.navigate('Chat')}
-            style={{ borderRadius: 1000, padding: '2%', backgroundColor: Colors.lightPurple.text }}
-          >
-            <Entypo 
-              name="message"
-              color="white"
-              size={22}
-            />
-          </TouchableOpacity>
+          {external ?
+            <TouchableOpacity 
+              onPress={() => navigation.navigate('Chat')}
+              style={{ borderRadius: 1000, padding: '2%', backgroundColor: Colors.lightPurple.text }}
+            >
+              <Entypo 
+                name="message"
+                color="white"
+                size={22}
+              />
+            </TouchableOpacity> : 
+            <TouchableOpacity 
+              style={{ borderRadius: 1000, padding: '2%', backgroundColor: Colors.lightPurple.text }}
+            >
+              <FontAwesome 
+                name="pencil"
+                color="white"
+                size={22}
+              />
+            </TouchableOpacity>
+          }
         </View>
         <View 
           style={{ 
@@ -103,9 +119,10 @@ export default function MatchCard({ navigation } : RootTabScreenProps<'Dashboard
           items={['Interest 1', 'Interest 2', 'Interest 3', 'Interest 4']}
         />
         <List 
-          title="Traits you share"
+          title={`Traits ${external ? 'you share' : ''}`}
           items={['Happiness', 'Curiosity', 'Dedication']}
         />
+        {external && 
         <View 
           style={{ 
             flexDirection: "row", 
@@ -128,7 +145,8 @@ export default function MatchCard({ navigation } : RootTabScreenProps<'Dashboard
               size={28}
             />
           </View>
-        </View>
+        </View>}
+        {external && 
         <View style={{ marginTop: '5%', width: '100%', alignItems: 'center' }}>
           <TouchableOpacity 
             style={match.button} 
@@ -148,7 +166,7 @@ export default function MatchCard({ navigation } : RootTabScreenProps<'Dashboard
               style={{ marginLeft: 15 }}
             />
           </TouchableOpacity>
-        </View>
+        </View>}
       </View>
     </View>
   );

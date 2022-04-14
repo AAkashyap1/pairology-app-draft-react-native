@@ -1,14 +1,11 @@
 import { Dispatch, SetStateAction } from "react";
 import { Image, Switch, View } from "react-native";
 import Colors from "../constants/Colors";
+import { useOpt } from "../hooks/useOpt";
 import AppText from "./AppText";
 
-type Props = {
-  opt: boolean,
-  setOpt: Dispatch<SetStateAction<boolean>>
-}
-
-export default function Nav({ opt, setOpt } : Props) {
+export default function Nav() {
+  const { opt, setOpt } = useOpt();
   return (
     <View style={{ 
       flexDirection: "row", 
@@ -37,7 +34,7 @@ export default function Nav({ opt, setOpt } : Props) {
             title={false}
             size={15}
             color={Colors.dark.text}
-            text="Opt in / out"
+            text="Opt out / in"
             bold
           />
         </View>
