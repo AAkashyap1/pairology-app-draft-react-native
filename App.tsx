@@ -22,7 +22,7 @@ function Dashboard() {
           headerShown: false, 
           tabBarIcon: 
             ({ color, size }) => 
-              <FontAwesome
+              <AntDesign
                 name="user"
                 color={color}
                 size={size}

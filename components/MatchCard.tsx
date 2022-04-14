@@ -42,6 +42,7 @@ export default function MatchCard({ external, navigation }: Props) {
               />
             </TouchableOpacity> : 
             <TouchableOpacity 
+              onPress={() => navigation.navigate('Survey')}
               style={{ borderRadius: 1000, padding: '2%', backgroundColor: Colors.lightPurple.text }}
             >
               <FontAwesome 
