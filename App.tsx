@@ -10,6 +10,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign, Entypo, FontAwesome, Ionicons } from '@expo/vector-icons';
 import OptProvider from './providers/OptProvider';
 import Profile from './screens/Profile';
+import AuthProvider from './providers/AuthProvider';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -65,33 +66,35 @@ function Dashboard() {
 
 export default function App() {
   return (
-    <DataProvider>
-      <OptProvider>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
-              options={{ headerShown: false }}
-              name="Account"
-              component={CreateAccount}
-            />
-            <Stack.Screen 
-              options={{ headerShown: false }}
-              name="Survey"
-              component={Survey}
-            />
-            <Stack.Screen 
-              options={{ headerShown: false }}
-              name="Dashboard"
-              component={Dashboard}
-            />
-            <Stack.Screen 
-              options={{ headerShown: false }}
-              name="Chat"
-              component={Chat}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </OptProvider>
-    </DataProvider>
+    <AuthProvider>
+      <DataProvider>
+        <OptProvider>
+          <NavigationContainer>
+            <Stack.Navigator>
+              <Stack.Screen
+                options={{ headerShown: false }}
+                name="Account"
+                component={CreateAccount}
+              />
+              <Stack.Screen 
+                options={{ headerShown: false }}
+                name="Survey"
+                component={Survey}
+              />
+              <Stack.Screen 
+                options={{ headerShown: false }}
+                name="Dashboard"
+                component={Dashboard}
+              />
+              <Stack.Screen 
+                options={{ headerShown: false }}
+                name="Chat"
+                component={Chat}
+              />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </OptProvider>
+      </DataProvider>
+    </AuthProvider>
   );
 };

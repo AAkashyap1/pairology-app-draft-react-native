@@ -11,9 +11,10 @@ import { questions } from '../constants/Questions'
 import { useEffect, useState } from 'react';
 import { Data } from '../constants/Data';
 import { useData } from '../hooks/useData';
+import InputDropdown from '../components/InputDropdown';
 
 
-export default function Survey({ route, navigation } : RootTabScreenProps<'Survey'>) {
+export default function Survey({ navigation } : RootTabScreenProps<'Survey'>) {
   const { state } = useData()
   const [pageNumber, setPageNumber] = useState(1);
   const [tempQuestions, setTempQuestions] = useState(questions.slice(4 * (pageNumber - 1), 4 * pageNumber));
@@ -79,7 +80,10 @@ export default function Survey({ route, navigation } : RootTabScreenProps<'Surve
                 {tempQuestions.map((question, questionIdx) => (
                   <View 
                     key={question.label}
-                    style={{ marginTop : '7%' }}
+                    style={[
+                      { marginTop : '7%' }, 
+                      Platform.select({ ios: { zIndex: question.component === InputDropdown ? 100 : 95 }})
+                    ]}
                   >
                     <question.component
                       label={question.label}

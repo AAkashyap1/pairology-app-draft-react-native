@@ -1,36 +1,36 @@
-import { Octicons } from "@expo/vector-icons";
-import { Dispatch, SetStateAction, useContext, useState } from "react";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { AntDesign, Octicons } from "@expo/vector-icons";
+import { Picker, Platform, View } from "react-native";
 import Colors from "../constants/Colors";
 import { Data } from "../constants/Data";
 import { useData } from "../hooks/useData";
-import { Props, Question } from "../types/Props";
+import { Question } from "../types/Props";
 import AppText from "./AppText";
-import DropdownModal from "./DropdownModal";
+import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown'
+import { useEffect, useState } from "react";
 
 export default function InputDropdown({
   label,
   options,
-  leftExtreme,
-  rightExtreme,
-  link,
-  linkText,
   hideTitle,
 } : Question) {
-  const { state } = useData();
-  const [visible, setVisible] = useState(false);
+  
+  const { state, dispatch } = useData();
+  const items = options.map((option, idx) => ({ id: String(idx + 1), title: option.name }));
+  function getInitialValue() {
+    for (const item of items) {
+      if (item.title == state[label as keyof Data]) {
+        return item.id;
+      }
+    }
+    return '';
+  }
+  useEffect(() => { 
+    console.log(state[label as keyof Data])
+  }, [state])
   return (
     <View>
-      <DropdownModal 
-        title={label}
-        options={options}
-        visible={visible}
-        setVisible={setVisible}
-        link={link}
-        linkText={linkText}
-      />
       {!hideTitle &&
-        <View>
+        <View style={Platform.select({ ios: { zIndex: 100 }})}>
           <AppText 
             text={label}
             bold
@@ -40,38 +40,62 @@ export default function InputDropdown({
           />
         </View>
       }
-      <TouchableOpacity
-        onPress={() => setVisible(true)}
-      >
-        <View
-          style={dropdownStyles.container}
-        >
-          <AppText 
-            text={state[label as keyof Data] ? state[label as keyof Data] : `Select ${label.toLowerCase()}...`}
-            size={14}
-            color={Colors.dark.text}
-            title={false}
-            flex={1}
-          />
-          <Octicons
-            name="chevron-down"
-            color="gray"
-            size={20}
-            style={{ marginLeft: 15 }}
-          />
-        </View>
-      </TouchableOpacity>
+      <View style={[{
+        marginTop: 7,
+        paddingHorizontal: 1.5,
+        paddingVertical: 0.1,
+        borderRadius: 8,
+        borderWidth: 1,
+      }, Platform.select({ ios: { zIndex: 100 }})]}>
+        <AutocompleteDropdown
+          ChevronIconComponent={
+            <Octicons
+              name="chevron-down"
+              color="gray"
+              size={20}
+            />
+          }
+          rightButtonsContainerStyle={{
+            borderRadius: 8,
+            backgroundColor: "white"
+          }}
+          textInputProps={{
+            placeholderTextColor: Colors.dark.text,
+            placeholder: `Select ${label.toLowerCase()}...`,
+            autoCorrect: false,
+            autoCapitalize: "none",
+            style: {
+              fontSize: 14,
+              backgroundColor: 'white'
+            }
+          }}
+          onSelectItem={(newValue) => {
+            console.log(newValue);
+            if (newValue) {
+              dispatch({ type: label, payload: newValue.title })
+            }
+          }}
+          renderItem={(item) => (
+            <View style={{ padding: 15 }}>
+              <AppText 
+                text={item.title ? item.title : ''}
+                size={14}
+                color={Colors.dark.text}
+                title={false}
+              />
+            </View>
+          )}
+          inputContainerStyle={{
+            backgroundColor: 'white'
+          }}
+          clearOnFocus={false}
+          showClear={false}
+          initialValue={getInitialValue()}
+          closeOnBlur={true}
+          closeOnSubmit={true}
+          dataSet={items} 
+        />
+      </View>
     </View>
   )
 }
-
-const dropdownStyles = StyleSheet.create({
-  container: {
-    borderWidth: 1,
-    paddingHorizontal: 15,
-    paddingVertical: 13,
-    marginTop: 7, 
-    borderRadius: 8,
-    flexDirection: "row",
-  }
-})

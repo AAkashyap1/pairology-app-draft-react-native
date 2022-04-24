@@ -1,15 +1,22 @@
-import { Octicons, FontAwesome } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Image, View, Linking, TouchableOpacity } from 'react-native';
+import { 
+  StyleSheet, 
+  Image, 
+  View, 
+  TouchableOpacity, 
+  Platform, 
+  TouchableWithoutFeedback, 
+  KeyboardAvoidingView, 
+  Keyboard 
+} from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import * as WebBrowser from 'expo-web-browser';
-import * as Google from "expo-auth-session/providers/google";
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import AppText from '../components/AppText';
 import Colors from '../constants/Colors';
 import { RootTabScreenProps } from '../types';
-import InputDropdown from '../components/InputDropdown';
+import InputDropdown from '../components/InputDropdown'
 import { universities } from '../data/universities';
 import { interestedForm } from '../constants/Forms';
 import { useData } from '../hooks/useData';
@@ -18,12 +25,16 @@ import { useAuth } from '../providers/AuthProvider';
 export default function CreateAccount({ navigation } : RootTabScreenProps<'Account'>) {
   const { state } = useData();
   const [showError, setShowError] = useState(false);
-  const { print, user } = useAuth();
-
-  function validate() {
-    if (state['University'] !== "") {
-      console.log(user);
-      print()
+  const { signUp } = useAuth();
+  
+  async function validate() {
+    if (state['University'] !== "") { 
+      try {
+        await signUp('dsdf@gmail.com', '123456');
+        navigation.navigate('Survey');
+      } catch(err) {
+        console.log(err);
+      }
     } else {
       setShowError(true);
     }
@@ -31,71 +42,81 @@ export default function CreateAccount({ navigation } : RootTabScreenProps<'Accou
 
   return (
     <SafeAreaProvider style={safeAreaStyles.container}>
-      <View style={imageStyles.container}>
-        <Image 
-          style={imageStyles.image} 
-          source={require("../assets/images/pairology.png")} 
-        />
-      </View>
-      <View style={createAccountStyles.container}>
-        <AppText 
-          text={'Create an account'}
-          size={30}
-          color={Colors.dark.text}
-          title
-        />
-      </View>
-      <View style={lineStyles.container} />
-      <View 
-        style={{ 
-          marginTop: '12%', 
-          marginBottom: '10%', 
-          width: '100%', 
-          alignItems: 'center' 
-        }}
+      <TouchableWithoutFeedback
+        style={safeAreaStyles.container}
+        onPress={Keyboard.dismiss}
       >
-        <View style={{ width: '80%' }}>
-          <InputDropdown 
-            hideTitle={true}
-            link={interestedForm}
-            linkText={`Don't see your college?`}
-            leftExtreme=""
-            rightExtreme=""
-            label={'University'}
-            options={universities}
-          />
-          {showError && state['University'] === "" &&
-            <View style={{ alignItems: "flex-start", marginTop: '2%' }} >
-              <AppText 
-                title={false}
-                size={14}
-                text="Required"
-                color='red'
-                bold
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={safeAreaStyles.container}
+        >
+          <View style={imageStyles.container}>
+            <Image 
+              style={imageStyles.image} 
+              source={require("../assets/images/pairology.png")} 
+            />
+          </View>
+          <View style={createAccountStyles.container}>
+            <AppText 
+              text={'Create an account'}
+              size={30}
+              color={Colors.dark.text}
+              title
+            />
+          </View>
+          <View style={lineStyles.container} />
+          <View 
+            style={[{ 
+              marginTop: '12%', 
+              marginBottom: '10%', 
+              width: '100%', 
+              alignItems: 'center' 
+            }, Platform.select({ ios: { zIndex: 100 }})]}
+          >
+            <View style={{ width: '80%' }}>
+              <InputDropdown 
+                hideTitle={true}
+                link={interestedForm}
+                linkText={`Don't see your college?`}
+                leftExtreme=""
+                rightExtreme=""
+                label={'University'}
+                options={universities}
               />
+              {showError && state['University'] === "" &&
+                <View style={[{ alignItems: "flex-start", marginTop: '2%' }, Platform.select({ ios: { zIndex: 95 }})]} >
+                  <AppText 
+                    title={false}
+                    size={14}
+                    text="Required"
+                    color='red'
+                    bold
+                  />
+                </View>
+              }
             </View>
-          }
-        </View>
-      </View>
-      <TouchableOpacity
-        onPress={() => validate()}
-        style={googleButtonStyles.container}
-      >
-        <FontAwesome
-          name="google"
-          color="white"
-          size={25}
-          style={{ marginRight: 15 }}
-        />
-        <AppText 
-          text={`Sign in with Google`}
-          size={20}
-          color="white"
-          title={false}
-          bold
-        />
-      </TouchableOpacity>
-      <StatusBar />
+          </View>
+          <TouchableOpacity
+            onPress={() => validate()}
+            style={[googleButtonStyles.container, Platform.select({ ios: { zIndex: 95 }})]}
+          >
+            <FontAwesome
+              name="sign-in"
+              color="white"
+              size={27}
+              style={{ marginRight: 15 }}
+            />
+            <AppText 
+              text={`Create account`}
+              size={23}
+              color="white"
+              title={false}
+              bold
+            />
+          </TouchableOpacity>
+          <StatusBar />
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     </SafeAreaProvider>
   );
 }
@@ -147,6 +168,8 @@ const safeAreaStyles = StyleSheet.create({
     backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
+    width: '100%', 
+    height: '100%',
   }
 })
 

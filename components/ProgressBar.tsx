@@ -25,7 +25,6 @@ export default function ProgressBar({ amount } : Props) {
 const progressBarSytles = StyleSheet.create({
   container: {
     borderBottomColor: Colors.dark.text,
-    borderBottomWidth: 0.2, 
     height: '3%',
     width: '100%',
     flexDirection: "row",
