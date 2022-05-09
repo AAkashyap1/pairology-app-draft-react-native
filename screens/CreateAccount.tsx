@@ -21,19 +21,38 @@ import { universities } from '../data/universities';
 import { interestedForm } from '../constants/Forms';
 import { useData } from '../hooks/useData';
 import { useAuth } from '../providers/AuthProvider';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+  statusCodes,
+} from "@react-native-google-signin/google-signin";
+import Realm from 'realm'
+import app from '../Realm';
+
+GoogleSignin.configure({
+  iosClientId: '776680840046-859q9vja4vmal5igt1b4uq6ov272fhei.apps.googleusercontent.com',
+  webClientId: '776680840046-471ruj0h34ngh4hgce8lup1cg27guvej.apps.googleusercontent.com'
+});
 
 export default function CreateAccount({ navigation } : RootTabScreenProps<'Account'>) {
   const { state } = useData();
   const [showError, setShowError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { signUp } = useAuth();
   
   async function validate() {
     if (state['University'] !== "") { 
+      setLoading(true);
       try {
-        await signUp('dsdf@gmail.com', '123456');
-        navigation.navigate('Survey');
-      } catch(err) {
-        console.log(err);
+        await GoogleSignin.hasPlayServices();
+        const { idToken } = await GoogleSignin.signIn();
+        const credential = Realm.Credentials.google(idToken ? idToken : "");
+        const user = await app.logIn(credential);
+        console.log("signed in as Realm user", user.id);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
       }
     } else {
       setShowError(true);
@@ -101,7 +120,7 @@ export default function CreateAccount({ navigation } : RootTabScreenProps<'Accou
             style={[googleButtonStyles.container, Platform.select({ ios: { zIndex: 95 }})]}
           >
             <FontAwesome
-              name="sign-in"
+              name="google"
               color="white"
               size={27}
               style={{ marginRight: 15 }}

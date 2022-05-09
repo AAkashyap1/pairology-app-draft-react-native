@@ -24,9 +24,7 @@ export default function InputDropdown({
     }
     return '';
   }
-  useEffect(() => { 
-    console.log(state[label as keyof Data])
-  }, [state])
+  
   return (
     <View>
       {!hideTitle &&
@@ -70,7 +68,6 @@ export default function InputDropdown({
             }
           }}
           onSelectItem={(newValue) => {
-            console.log(newValue);
             if (newValue) {
               dispatch({ type: label, payload: newValue.title })
             }
